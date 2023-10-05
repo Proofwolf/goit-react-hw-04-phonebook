@@ -26,6 +26,9 @@ export const App = () => {
   //При кожній зміні масиву контактів - зберігаємо їх в localStorage
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
+    if (contacts.length === 0) {
+      localStorage.removeItem("contacts");
+  }
   }, [contacts]);
 
   //Функція генерації id. Сама Функція nanoid() приймає необов'язковий аргумент, що задає довжину id
@@ -91,10 +94,10 @@ export const App = () => {
         <span className={css.total_count}> {contacts.length}</span>
       </p>
       <Filter value={filter} onChange={handleChangeFilter} />
-      <ContactList
+      {contacts.length ?<ContactList
         filteredContacts={filteredContacts}
         onDeleteContact={deleteContact}
-      />
+      />: <p>There is no contacts</p>}
     </div>
   );
 };
